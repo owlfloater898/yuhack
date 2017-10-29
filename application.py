@@ -79,8 +79,8 @@ def register():
 	email = json['email']
 	username = json['username']
 	password = json['password']
-	newUser = User(name = form.name.data, email = form.email.data, username = 
-		form.username.data, password = sha256_crypt.encrypt(str(form.password.data)))
+	newUser = User(name = name, email = email, username = 
+		username, password = sha256_crypt.encrypt(str(password)))
 	if not newUser:
 		return jsonify(error = 'CANNOT CREATE NEW USER'), status.HTTP_500_INTERNAL_SERVER_ERROR
 	db.session.add(newUser)
