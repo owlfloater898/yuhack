@@ -1,4 +1,3 @@
-#helloworld
 from flask import Flask, render_template, redirect, url_for, session, request, logging, flash
 from flask.ext.mysql import MySQL
 from wtforms import Form, StringField, PasswordField, validators
