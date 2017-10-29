@@ -4,12 +4,20 @@ from passlib.hash import sha256_crypt
 
 app = Flask(__name__)
 
+class Register(Form):
+	name = StringField('Name', [validators.DataRequired()])
+	username = StringField('Username', [validators.Length(min = 5, max = 25)])
+	password = PasswordField('password', [validators.Length(min = 5, max = 25)], validators.EqualTo('confirm', message='Passwords do not mathc'))
+	confirm = PasswordField('Confirm Pasword')
+
 @app.route('/')
 def index():
 	return render_template('index.html')
 
 @app.route('/register', methods=['GET','POST'])
 def register():
+	form = Register(request.form)
+	if(request.method == 'POST')
 	return render_template('register')
 
 @app.route('/login')
