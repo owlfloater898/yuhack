@@ -1,16 +1,16 @@
 from flask import Flask, render_template, redirect, url_for, session, request, logging, flash
-from flask_sqlalchemy import SQLAlchemy 
+from flask_sqlalchemy import SQLAlchemy
 from wtforms import Form, StringField, PasswordField, TextAreaField, DecimalField, validators
 from passlib.hash import sha256_crypt
 from functools import wraps
 from collections import Counter
 
 
-app = Flask(__name__)
-app.secret_key = 'supersecretkey'
+application = Flask(__name__)
+application.secret_key = 'supersecretkey'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///yuhack.db'
-db = SQLAlchemy(app)
+application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:85878500@yudbinstance.ct86rbi71o0x.us-west-2.rds.amazonaws.com:3306/YUhackathon'
+db = SQLAlchemy(application)
 
 class User(db.Model):
 	__tablename__ = 'users'
@@ -66,7 +66,7 @@ class PropsForm(Form):
 class Search(Form):
 	tags = StringField('Tags', [validators.DataRequired()])
 
-@app.route('/', methods =['GET', 'POST'])
+@application.route('/', methods =['GET', 'POST'])
 def index():
 	#form = Search(request.form)
 	#if request.method == 'POST' and form.validate()):
@@ -74,31 +74,35 @@ def index():
 	#else:
 		return render_template('index.html')
 
+<<<<<<< HEAD
 @app.route('/about')
 def about():
 	return render_template('about.html')
 
 @app.route('/results')
+=======
+@application.route('/results')
+>>>>>>> 6fe3cad1f606187851b4969b62428bd7bcd5285e
 def results():
 	tags = request.form.get('tags')
 	props = Props.query.filter_by(tags = tags).all()
 	grants = Grant.query.filter_by(tags = tags).all()
 	return render_template('index.html', grants = grants, props = props)
 
-@app.route('/register', methods=['GET','POST'])
+@application.route('/register', methods=['GET','POST'])
 def register():
 	form = Register(request.form)
 	if(request.method == 'POST' and form.validate()):
-		newUser = User(name = form.name.data, email = form.email.data, username = 
+		newUser = User(name = form.name.data, email = form.email.data, username =
 			form.username.data, password = sha256_crypt.encrypt(str(form.password.data)))
 		db.session.add(newUser)
 		db.session.commit()
-		#cursor.execute("INSERT INTO users (name, email, username, password) VALUES (%s, %s, %s, %s)", (form.name.data, form.email.data, form.username.data, sha256_crypt.encrypt(str(form.password.data))) )		
+		#cursor.execute("INSERT INTO users (name, email, username, password) VALUES (%s, %s, %s, %s)", (form.name.data, form.email.data, form.username.data, sha256_crypt.encrypt(str(form.password.data))) )
 		return redirect(url_for('login'))
 	else:
 		return render_template('register.html', form = form)
 
-@app.route('/login', methods=['GET','POST'])
+@application.route('/login', methods=['GET','POST'])
 def login():
 	if(request.method == 'POST'):
 		username = request.form['username']
@@ -127,7 +131,7 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-@app.route('/gdash')
+@application.route('/gdash')
 @login_required
 def gdash():
 	myGrants = Grant.query.filter_by(userid = session['id']).all()
@@ -146,12 +150,12 @@ def gdash():
 			uniqueMatches.append(match)
 	return render_template('gdash.html', grants=myGrants, props=uniqueMatches)
 
-@app.route('/gdash_add', methods=['GET','POST'])
+@application.route('/gdash_add', methods=['GET','POST'])
 @login_required
 def gdash_add():
 	form = GrantForm(request.form)
 	if request.method == 'POST' and form.validate():
-		newGrant = Grant(userid = session['id'], amount = form.amount.data, description = form.description.data, tags = 
+		newGrant = Grant(userid = session['id'], amount = form.amount.data, description = form.description.data, tags =
 			form.tags.data, location = form.location.data)
 		db.session.add(newGrant)
 		db.session.commit()
@@ -159,7 +163,7 @@ def gdash_add():
 	else:
 		return render_template('gdash_add.html', form=form)
 
-@app.route('/pdash')
+@application.route('/pdash')
 @login_required
 def pdash():
 	myProps = Props.query.filter_by(userid = session['id']).all()
@@ -178,12 +182,12 @@ def pdash():
 			uniqueMatches.append(match)
 	return render_template('pdash.html', props=myProps, grants=uniqueMatches)
 
-@app.route('/pdash_add', methods=['GET','POST'])
+@application.route('/pdash_add', methods=['GET','POST'])
 @login_required
 def pdash_add():
 	form = PropsForm(request.form)
 	if request.method == 'POST' and form.validate():
-		newProp = Props(userid = session['id'], title = form.title.data, amount = form.amount.data, description = form.description.data, tags = 
+		newProp = Props(userid = session['id'], title = form.title.data, amount = form.amount.data, description = form.description.data, tags =
 			form.tags.data, location = form.location.data)
 		db.session.add(newProp)
 		db.session.commit()
@@ -191,11 +195,11 @@ def pdash_add():
 	else:
 		return render_template('pdash_add.html', form=form)
 
-@app.route('/logout')
+@application.route('/logout')
 @login_required
 def logout():
 	session.clear()
 	return redirect(url_for('login'))
 
 if __name__ == '__main__':
-	app.run(debug = True)
+	application.run(debug = True)
