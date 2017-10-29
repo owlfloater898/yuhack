@@ -1,10 +1,13 @@
 from flask import Flask, render_template, redirect, url_for, session, request, logging, flash
-from flask_mysqldb import MySQL
+from flask_sqlalchemy import SQLAlchemy 
 from wtforms import Form, StringField, PasswordField, validators
 from passlib.hash import sha256_crypt
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///yuhack.db'
+db = SQLAlchemy(app)
 
 ## SQL Configuration
 app.config['MYSQL_USER'] = 'avi'
@@ -18,6 +21,13 @@ mysql.init_app(app)
 db = mysql.connection
 cursor = db.cursor()
 
+class User(db.Model):
+	__tablename__ = 'users'
+	id = db.Column('id', db.Integer, nullable = False, primary_key = True, unique = True)
+	name = db.Column('name', db.String(), nullable = False)
+	email = db.Column('email', db.String(), nullable = False, unique = True)
+	username = db.Column('username', db.String(), nullable = False, unique = True)
+	password = db.Column('password', db.String(), nullable = False)
 
 class Register(Form):
 	name = StringField('Name', [validators.DataRequired()])
@@ -38,6 +48,10 @@ def index():
 def register():
 	form = Register(request.form)
 	if(request.method == 'POST' and form.validate()):
+		newUser = User(name = form.name.data, email = form.email.data, username = 
+			form.username.data, password = sha256_crypt.encrypt(str(form.password.data)))
+		db.session.add(newUser)
+		db.session.commit()
 		#cursor.execute("INSERT INTO users (name, email, username, password) VALUES (%s, %s, %s, %s)", (form.name.data, form.email.data, form.username.data, sha256_crypt.encrypt(str(form.password.data))) )		
 		return redirect(url_for('index'))
 	else:
@@ -45,21 +59,22 @@ def register():
 
 @app.route('/login', methods=['GET','POST'])
 def login():
-	form = Login(request.form)
-	if(request.method == 'POST' and form.validate()):
+	if(request.method == 'POST'):
+		uname = request.form['username']
+		pword = request.form['password']
 		#result = cursor.execute("SELECT * FROM users WHERE username = %s", form.username.data)
+		result = User.query.filter_by(username = uname).first()
 		if result:
-			if result[3] == form.username.data and sha256_crypt.verify(form.password.data, result[4]):
+			if uname == result.username and sha256_crypt.verify(pword, result.password):
 				session['logged_in'] = True
-				session['username'] = result[3]
-				session['id'] = result[0]
+				session['username'] = uname
 				return redirect(url_for('index'))
 			else:
-				return render_template('login.html', form = form)
+				return render_template('login.html')
 		else:
-			return render_template('login.html', form = form)
+			return render_template('login.html')
 	else:
-		return render_template('login.html', form = form)
+		return render_template('login.html')
 
 @app.route('/gdash')
 def gdash():
