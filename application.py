@@ -8,7 +8,7 @@ app = Flask(__name__)
 def index():
 	return render_template('index.html')
 
-@app.route('/register')
+@app.route('/register', methods=['GET','POST'])
 def register():
 	return render_template('register')
 
