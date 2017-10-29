@@ -1,12 +1,10 @@
-from flask import Flask, render_template, redirect, url_for, session, request, logging, jsonify
+from flask import Flask, render_template, redirect, url_for, session, request, logging, jsonify, json, Response
+from flask.ext.api import status
 from flask_sqlalchemy import SQLAlchemy 
 from wtforms import Form, StringField, PasswordField, TextAreaField, DecimalField, validators
 from passlib.hash import sha256_crypt
 from functools import wraps
 from collections import Counter
-import json
-
-
 
 application = Flask(__name__)
 application.secret_key = 'supersecretkey'
@@ -75,17 +73,19 @@ def index():
 		grants = Grant.query.all()
 	return render_template('index.html', grants = grants, props = props)
 
-@application.route('/register', methods=['GET','POST'])
+@application.route('/register', methods=['POST'])
 def register():
-	form = Register(request.form)
-	if(request.method == 'POST' and form.validate()):
-		newUser = User(name = form.name.data, email = form.email.data, username = 
-			form.username.data, password = sha256_crypt.encrypt(str(form.password.data)))
-		db.session.add(newUser)
-		db.session.commit()
-		return jsonify(id = newUser.id)
-	else:
-		return render_template('register.html', form = form)
+	name = json['name']
+	email = json['email']
+	username = json['username']
+	password = json['password']
+	newUser = User(name = form.name.data, email = form.email.data, username = 
+		form.username.data, password = sha256_crypt.encrypt(str(form.password.data)))
+	if not newUser:
+		return jsonify(error = 'CANNOT CREATE NEW USER'), status.HTTP_500_INTERNAL_SERVER_ERROR
+	db.session.add(newUser)
+	db.session.commit()
+	return jsonify(id = newUser.id), status.HTTP_201_CREATED
 
 @application.route('/login', methods=['GET','POST'])
 def login():
