@@ -8,11 +8,11 @@ import json
 
 
 
-app = Flask(__name__)
-app.secret_key = 'supersecretkey'
+application = Flask(__name__)
+application.secret_key = 'supersecretkey'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://avi:password@162.243.186.103:33067/YUhackathon'
-db = SQLAlchemy(app)
+application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://avi:password@162.243.186.103:33067/YUhackathon'
+db = SQLAlchemy(application)
 
 class User(db.Model):
 	__tablename__ = 'users'
@@ -65,7 +65,7 @@ class PropsForm(Form):
 	tags = StringField('Tags', [validators.DataRequired()])
 	location = StringField('Location', [validators.DataRequired()])
 
-@app.route('/')
+@application.route('/')
 def index():
 	if 'logged_in' in session:
 		props = Props.query.filter(Props.userid != session['id']).all()
@@ -75,7 +75,7 @@ def index():
 		grants = Grant.query.all()
 	return render_template('index.html', grants = grants, props = props)
 
-@app.route('/register', methods=['GET','POST'])
+@application.route('/register', methods=['GET','POST'])
 def register():
 	form = Register(request.form)
 	if(request.method == 'POST' and form.validate()):
@@ -87,7 +87,7 @@ def register():
 	else:
 		return render_template('register.html', form = form)
 
-@app.route('/login', methods=['GET','POST'])
+@application.route('/login', methods=['GET','POST'])
 def login():
 	if(request.method == 'POST'):
 		uname = request.form['username']
@@ -116,7 +116,7 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-@app.route('/gdash')
+@application.route('/gdash')
 @login_required
 def gdash():
 	myGrants = Grant.query.filter_by(userid = session['id']).all()
@@ -126,16 +126,16 @@ def gdash():
 		for prop in props:
 			common = set(myGrant.tags.split()) & set(prop.tags.split())
 			if common:
-				matches.append(prop)
+				matches.applicationend(prop)
 	uniqueMatches = []
 	#remove duplicates by making a new list and only adding things to it if they aren't already in it
 	#that way, when a duplicate comes up, it won't be added because it's already there
 	for match in matches:
 		if match not in uniqueMatches:
-			uniqueMatches.append(match)
+			uniqueMatches.applicationend(match)
 	return render_template('gdash.html', grants=myGrants, props=uniqueMatches)
 
-@app.route('/gdash_add', methods=['GET','POST'])
+@application.route('/gdash_add', methods=['GET','POST'])
 @login_required
 def gdash_add():
 	form = GrantForm(request.form)
@@ -148,7 +148,7 @@ def gdash_add():
 	else:
 		return render_template('gdash_add.html', form=form)
 
-@app.route('/pdash')
+@application.route('/pdash')
 @login_required
 def pdash():
 	myProps = Props.query.filter_by(userid = session['id']).all()
@@ -158,16 +158,16 @@ def pdash():
 		for grant in grants:
 			common = set(myprop.tags.split()) & set(grant.tags.split())
 			if common:
-				matches.append(grant)
+				matches.applicationend(grant)
 	uniqueMatches = []
 	#remove duplicates by making a new list and only adding things to it if they aren't already in it
 	#that way, when a duplicate comes up, it won't be added because it's already there
 	for match in matches:
 		if match not in uniqueMatches:
-			uniqueMatches.append(match)
+			uniqueMatches.applicationend(match)
 	return render_template('pdash.html', props=myProps, grants=uniqueMatches)
 
-@app.route('/pdash_add', methods=['GET','POST'])
+@application.route('/pdash_add', methods=['GET','POST'])
 @login_required
 def pdash_add():
 	form = PropsForm(request.form)
@@ -180,11 +180,11 @@ def pdash_add():
 	else:
 		return render_template('pdash_add.html', form=form)
 
-@app.route('/logout')
+@application.route('/logout')
 @login_required
 def logout():
 	session.clear()
 	return redirect(url_for('login'))
 
 if __name__ == '__main__':
-	app.run(debug = True)
+	application.run(debug = True)
