@@ -11,7 +11,7 @@ import json
 application = Flask(__name__)
 application.secret_key = 'supersecretkey'
 
-application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://avi:password@162.243.186.103:33067/YUhackathon'
+application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:85878500@yudbinstance.ct86rbi71o0x.us-west-2.rds.amazonaws.com:3306/YUhackathon'
 db = SQLAlchemy(application)
 
 class User(db.Model):
