@@ -6,8 +6,9 @@ app = Flask(__name__)
 
 class Register(Form):
 	name = StringField('Name', [validators.DataRequired()])
+	email = StringField('Email', [validators.Email(message='Invalid email address')])
 	username = StringField('Username', [validators.Length(min = 5, max = 25)])
-	password = PasswordField('password', [validators.Length(min = 5, max = 25)], validators.EqualTo('confirm', message='Passwords do not mathc'))
+	password = PasswordField('password', [validators.Length(min = 5, max = 25), validators.EqualTo('confirm', message='Passwords do not mathc')])
 	confirm = PasswordField('Confirm Pasword')
 
 @app.route('/')
@@ -17,12 +18,14 @@ def index():
 @app.route('/register', methods=['GET','POST'])
 def register():
 	form = Register(request.form)
-	if(request.method == 'POST')
-	return render_template('register')
+	if(request.method == 'POST'):
+		return redirect(url_for('index'))
+	else:
+		return render_template('register.html', form = form)
 
 @app.route('/login')
 def login():
-	return render_template('login')
+	return render_template('login.html')
 
 @app.route('/gdash')
 def gdash():
