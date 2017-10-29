@@ -9,18 +9,6 @@ app.secret_key = 'supersecretkey'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///yuhack.db'
 db = SQLAlchemy(app)
 
-## SQL Configuration
-app.config['MYSQL_USER'] = 'avi'
-app.config['MYSQL_PASSWORD'] = 'password'
-app.config['MYSQL_DB'] = 'YUhackathon'
-app.config['MYSQL_HOST'] = '162.243.186.103'
-app.config['MYSQL_PORT'] = '33067'
-mysql = MySQL()
-mysql.init_app(app)
-
-db = mysql.connection
-cursor = db.cursor()
-
 class User(db.Model):
 	__tablename__ = 'users'
 	id = db.Column('id', db.Integer, nullable = False, primary_key = True, unique = True)
