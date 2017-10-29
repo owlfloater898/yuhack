@@ -97,14 +97,14 @@ def register():
 @app.route('/login', methods=['GET','POST'])
 def login():
 	if(request.method == 'POST'):
-		uname = request.form['username']
-		pword = request.form['password']
+		username = request.form['username']
+		password = request.form['password']
 		#result = cursor.execute("SELECT * FROM users WHERE username = %s", form.username.data)
 		result = User.query.filter_by(username = uname).first()
 		if result:
-			if uname == result.username and sha256_crypt.verify(pword, result.password):
+			if username == result.username and sha256_crypt.verify(password, result.password):
 				session['logged_in'] = True
-				session['username'] = uname
+				session['username'] = username
 				session['id'] = result.id
 				return redirect(url_for('index'))
 			else:
