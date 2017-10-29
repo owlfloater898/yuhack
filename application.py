@@ -1,15 +1,17 @@
-from flask import Flask, render_template, redirect, url_for, session, request, logging, flash
+from flask import Flask, render_template, redirect, url_for, session, request, logging, jsonify
 from flask_sqlalchemy import SQLAlchemy 
 from wtforms import Form, StringField, PasswordField, TextAreaField, DecimalField, validators
 from passlib.hash import sha256_crypt
 from functools import wraps
 from collections import Counter
+import json
+
 
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///yuhack.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://avi:password@162.243.186.103:33067/YUhackathon'
 db = SQLAlchemy(app)
 
 class User(db.Model):
@@ -17,7 +19,7 @@ class User(db.Model):
 	id = db.Column('id', db.Integer, nullable = False, primary_key = True, unique = True)
 	name = db.Column('name', db.String(), nullable = False)
 	email = db.Column('email', db.String(), nullable = False, unique = True)
-	username = db.Column('username', db.String(), nullable = False, unique = True)
+	username = db.Column('username', db.String(), nullable = False)
 	password = db.Column('password', db.String(), nullable = False)
 
 class Grant(db.Model):
@@ -81,8 +83,7 @@ def register():
 			form.username.data, password = sha256_crypt.encrypt(str(form.password.data)))
 		db.session.add(newUser)
 		db.session.commit()
-		#cursor.execute("INSERT INTO users (name, email, username, password) VALUES (%s, %s, %s, %s)", (form.name.data, form.email.data, form.username.data, sha256_crypt.encrypt(str(form.password.data))) )		
-		return redirect(url_for('login'))
+		return jsonify(id = newUser.id)
 	else:
 		return render_template('register.html', form = form)
 
