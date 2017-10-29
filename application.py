@@ -6,10 +6,10 @@ from passlib.hash import sha256_crypt
 def index():
 	return render_template('index.html')
 
-@app.route('register'):
+@app.route('register')
 	return render_template('register')
 
-@app.route('login'):
+@app.route('login')
 def login():
 	return render_template('login')
 
