@@ -74,15 +74,11 @@ def index():
 	#else:
 		return render_template('index.html')
 
-<<<<<<< HEAD
-@app.route('/about')
+@application.route('/about')
 def about():
 	return render_template('about.html')
 
-@app.route('/results')
-=======
 @application.route('/results')
->>>>>>> 6fe3cad1f606187851b4969b62428bd7bcd5285e
 def results():
 	tags = request.form.get('tags')
 	props = Props.query.filter_by(tags = tags).all()
