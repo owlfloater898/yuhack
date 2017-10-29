@@ -6,11 +6,16 @@ from passlib.hash import sha256_crypt
 def index():
 	return render_template('index.html')
 
+@app.route('register'):
+	return render_template('register')
+
+@app.route('login'):
+def login():
+	return render_template('login')
 
 @app.route('/gdash')
 def gdash():
 	return render_template('gdash.html')
-
 
 @app.route('/pdash')
 def pash():
