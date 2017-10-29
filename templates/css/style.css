@@ -1,0 +1,141 @@
+body{
+	background: #f4f4f4;
+}
+
+/* Navbar */
+.navbar{
+	min-height: 33px !important;
+	margin-bottom: 0;
+	border-radius: 0;
+	border: 0;
+}
+
+.navbar-nav > li > a, .navbar-brand{
+	padding-top: 6px !important;
+	padding-bottom: 0 !important;
+	height: 33px;
+} 
+
+.navbar-default {
+  background-color: #4a6f9b;
+  border-color: #395f89;
+}
+.navbar-default .navbar-brand {
+  color: #d3dce7;
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+  color: #dbf1ff;
+}
+.navbar-default .navbar-text {
+  color: #d3dce7;
+}
+.navbar-default .navbar-nav > li > a {
+  color: #d3dce7;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #dbf1ff;
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: #dbf1ff;
+  background-color: #395f89;
+}
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+  color: #dbf1ff;
+  background-color: #395f89;
+}
+.navbar-default .navbar-toggle {
+  border-color: #395f89;
+}
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+  background-color: #395f89;
+}
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #d3dce7;
+}
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form {
+  border-color: #d3dce7;
+}
+.navbar-default .navbar-link {
+  color: #d3dce7;
+}
+.navbar-default .navbar-link:hover {
+  color: #dbf1ff;
+}
+
+/* Custom */
+.main-color-bg{
+	background-color: #4a6f9b !important;
+ 	border-color: #395f89 !important;
+ 	color: #dbf1ff !important;
+}
+
+/* Header */
+#header{
+	background: #333333;
+	color: #d3dce7;
+	padding-bottom: 15px;
+	margin-bottom: 15px;
+}
+
+#header .create{
+	padding-top: 25px;
+}
+
+/* Breadcrumb */
+
+.breadcrumb{
+	background: #cccccc;
+	color: #333333;
+}
+
+.breadcrumb a{
+	color: #333333;
+}
+
+/* Progress Bars */
+
+.progress-bar{
+	background: #333333;
+	color: #d3dce7;
+}
+
+/* Dash-Box in the Wells */
+.dash-box{
+	text-align: center;
+}
+
+/* Footer */
+#footer{
+	background: #333333;
+	color: #d3dce7;
+	text-align: center;
+	padding: 30px;
+	margin-top: 30px;
+}
+
+
+
+
+@media (max-width: 767px) {
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+    color: #d3dce7;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+    color: #dbf1ff;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+    color: #dbf1ff;
+    background-color: #395f89;
+  }
+}
