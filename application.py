@@ -1,8 +1,10 @@
 from flask import Flask, render_template, redirect, url_for, session, request, logging, flash
 from flask_sqlalchemy import SQLAlchemy 
-from wtforms import Form, StringField, PasswordField, TextAreaField, validators
+from wtforms import Form, StringField, PasswordField, TextAreaField, DecimalField, validators
 from passlib.hash import sha256_crypt
 from functools import wraps
+from collections import Counter
+
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
@@ -49,21 +51,27 @@ class Login(Form):
 	password = PasswordField('Password', [validators.Length(min = 5, max = 25)])
 
 class GrantForm(Form):
-	amount = StringField('Amount', [validators.DataRequired()])
+	amount = DecimalField('Amount', [validators.NumberRange(min = 100, max = None)])
 	description = TextAreaField('Description' )
 	tags = StringField('Tags', [validators.DataRequired()])
 	location = StringField('Location', [validators.DataRequired()])
 
 class PropsForm(Form):
 	title = StringField('Title', [validators.Length(min = 5, max = 25)])
-	amount = StringField('Amount', [validators.DataRequired()])
+	amount = DecimalField('Amount', [validators.NumberRange(min = 100, max = None)])
 	description = TextAreaField('Description' )
 	tags = StringField('Tags', [validators.DataRequired()])
 	location = StringField('Location', [validators.DataRequired()])
 
 @app.route('/')
 def index():
-	return render_template('index.html')
+	if 'logged_in' in session:
+		props = Props.query.filter(Props.userid != session['id']).all()
+		grants = Grant.query.filter(Grant.userid != session['id']).all()
+	else:
+		props = Props.query.all()
+		grants = Grant.query.all()
+	return render_template('index.html', grants = grants, props = props)
 
 @app.route('/register', methods=['GET','POST'])
 def register():
@@ -74,7 +82,7 @@ def register():
 		db.session.add(newUser)
 		db.session.commit()
 		#cursor.execute("INSERT INTO users (name, email, username, password) VALUES (%s, %s, %s, %s)", (form.name.data, form.email.data, form.username.data, sha256_crypt.encrypt(str(form.password.data))) )		
-		return redirect(url_for('index'))
+		return redirect(url_for('login'))
 	else:
 		return render_template('register.html', form = form)
 
@@ -110,8 +118,21 @@ def login_required(f):
 @app.route('/gdash')
 @login_required
 def gdash():
-	result = Grant.query.filter_by(userid = session['id']).all()
-	return render_template('gdash.html', grants=result)
+	myGrants = Grant.query.filter_by(userid = session['id']).all()
+	props = Props.query.filter(Props.userid != session['id']).all()
+	matches = []
+	for myGrant in myGrants:
+		for prop in props:
+			common = set(myGrant.tags.split()) & set(prop.tags.split())
+			if common:
+				matches.append(prop)
+	uniqueMatches = []
+	#remove duplicates by making a new list and only adding things to it if they aren't already in it
+	#that way, when a duplicate comes up, it won't be added because it's already there
+	for match in matches:
+		if match not in uniqueMatches:
+			uniqueMatches.append(match)
+	return render_template('gdash.html', grants=myGrants, props=uniqueMatches)
 
 @app.route('/gdash_add', methods=['GET','POST'])
 @login_required
@@ -129,8 +150,21 @@ def gdash_add():
 @app.route('/pdash')
 @login_required
 def pdash():
-	results = Props.query.filter_by(userid = session['id']).all()
-	return render_template('pdash.html', props=results)
+	myProps = Props.query.filter_by(userid = session['id']).all()
+	grants = Grant.query.filter(Grant.userid != session['id']).all()
+	matches = []
+	for myprop in myProps:
+		for grant in grants:
+			common = set(myprop.tags.split()) & set(grant.tags.split())
+			if common:
+				matches.append(grant)
+	uniqueMatches = []
+	#remove duplicates by making a new list and only adding things to it if they aren't already in it
+	#that way, when a duplicate comes up, it won't be added because it's already there
+	for match in matches:
+		if match not in uniqueMatches:
+			uniqueMatches.append(match)
+	return render_template('pdash.html', props=myProps, grants=uniqueMatches)
 
 @app.route('/pdash_add', methods=['GET','POST'])
 @login_required

@@ -8,14 +8,15 @@
 <div class="container">
 	<a class="btn btn-primary" href="/pdash_add">Add Proposal</a>
 	<hr>
+	<h4>Standing Proposals</h4>
 	{% if props|length > 0 %}
 		<table class="table table-striped">
 			<tr>
 				<th>Title</th>
 				<th>Amount</th>
 				<th>Description</th>
-				<th>tags</th>
-				<th>location</th>		
+				<th>Tags</th>
+				<th>Location</th>		
 			</tr>
 			{% for prop in props %}
 				<tr>
@@ -24,6 +25,28 @@
 					<td>{{prop.description}}</td>
 					<td>{{prop.tags}}</td>
 					<td>{{prop.location}}</td>
+				</tr>
+			{% endfor %}
+		</table>
+	{% endif %}
+
+	<h4>Matched Grants</h4>
+	{% if grants|length > 0 %}
+		<table class="table table-striped">
+			<tr>
+				<th>Amount</th>
+				<th>Description</th>
+				<th>Tags</th>
+				<th>Location</th>	
+				<th></th>	
+			</tr>
+			{% for grant in grants %}
+				<tr>
+					<td>{{grant.amount}}</td>
+					<td>{{grant.description}}</td>
+					<td>{{grant.tags}}</td>
+					<td>{{grant.location}}</td>
+					<td><input type="submit" value="Contact" class="btn btn-success"></td>
 				</tr>
 			{% endfor %}
 		</table>

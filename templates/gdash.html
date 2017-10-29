@@ -8,6 +8,7 @@
 <div class="container">
 	<a class="btn btn-primary" href="/gdash_add">Add Grant</a>
 	<hr>
+	<h4>Standing Grants</h4>
 	{% if grants|length > 0 %}
 		<table class="table table-striped">
 			<tr>
@@ -22,6 +23,30 @@
 					<td>{{grant.description}}</td>
 					<td>{{grant.tags}}</td>
 					<td>{{grant.location}}</td>
+				</tr>
+			{% endfor %}
+		</table>
+	{% endif %}
+
+	<h4>Matched Proposals</h4>
+	{% if grants|length > 0 %}
+		<table class="table table-striped">
+			<tr>
+				<th>Title</th>
+				<th>Amount</th>
+				<th>Description</th>
+				<th>Tags</th>
+				<th>Location</th>
+				<th></th>		
+			</tr>
+			{% for prop in props %}
+				<tr>
+					<td>{{prop.title}}</td>
+					<td>{{prop.amount}}</td>
+					<td>{{prop.description}}</td>
+					<td>{{prop.tags}}</td>
+					<td>{{prop.location}}</td>
+					<td><input type="submit" value="Accept" class="btn btn-success"></td>
 				</tr>
 			{% endfor %}
 		</table>
