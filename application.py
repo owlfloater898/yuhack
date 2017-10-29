@@ -1,8 +1,23 @@
 from flask import Flask, render_template, redirect, url_for, session, request, logging, flash
+from flask.ext.mysql import MySQL
 from wtforms import Form, StringField, PasswordField, validators
 from passlib.hash import sha256_crypt
 
 app = Flask(__name__)
+
+mysql = MySQL()
+
+## SQL Configuration
+app.config['MYSQL_DATABASE_USER'] = 'avi'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'password'
+app.config['MYSQL_DATABASE_DB'] = 'YUhackathon'
+app.config['MYSQL_DATABASE_HOST'] = '162.243.186.103'
+app.config['MYSQL_DATABASE_PORT'] = '33067'
+mysql.init_app(app)
+
+conn = mysql.connect()
+cursor = conn.cursor()
+
 
 class Register(Form):
 	name = StringField('Name', [validators.DataRequired()])
@@ -23,6 +38,7 @@ def index():
 def register():
 	form = Register(request.form)
 	if(request.method == 'POST' and form.validate()):
+		cursor.execute("INSERT INTO users (name, email, username, password) VALUES (%s, %s, %s, %s)", (form.name.data, form.email.data, form.username.data, sha256_crypt.encrypt(str(form.password.data))) )		
 		return redirect(url_for('index'))
 	else:
 		return render_template('register.html', form = form)
@@ -31,7 +47,17 @@ def register():
 def login():
 	form = Login(request.form)
 	if(request.method == 'POST' and form.validate()):
-		return redirect(url_for('index'))
+		result = cursor.execute("SELECT * FROM users WHERE username = %s", form.username.data)
+		if result:
+			if result[3] == form.username.data and sha256_crypt.verify(form.password.data, result[4]):
+				session['logged_in'] = True
+				session['username'] = result[3]
+				session['id'] = result[0]
+				return redirect(url_for('index'))
+			else:
+				return render_template('login.html', form = form)
+		else:
+			return render_template('login.html', form = form)
 	else:
 		return render_template('login.html', form = form)
 
