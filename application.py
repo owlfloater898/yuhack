@@ -1,23 +1,22 @@
 #helloworld
 from flask import Flask, render_template, redirect, url_for, session, request, logging, flash
-from flask.ext.mysql import MySQL
+from flask_mysqldb import MySQL
 from wtforms import Form, StringField, PasswordField, validators
 from passlib.hash import sha256_crypt
 
 app = Flask(__name__)
-
-mysql = MySQL()
+app.secret_key = 'supersecretkey'
 
 ## SQL Configuration
-app.config['MYSQL_DATABASE_USER'] = 'avi'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'password'
-app.config['MYSQL_DATABASE_DB'] = 'YUhackathon'
-app.config['MYSQL_DATABASE_HOST'] = '162.243.186.103'
-app.config['MYSQL_DATABASE_PORT'] = '33067'
-mysql.init_app(app)
+#app.config['MYSQL_USER'] = 'avi'
+#app.config['MYSQL_PASSWORD'] = 'password'
+#app.config['MYSQL_DB'] = 'YUhackathon'
+#app.config['MYSQL_HOST'] = '162.243.186.103'
+#app.config['MYSQL_PORT'] = '33067'
+#mysql = MySQL(app)
 
-conn = mysql.connect()
-cursor = conn.cursor()
+#db = mysql.connection
+#cursor = db.cursor()
 
 
 class Register(Form):
@@ -39,7 +38,7 @@ def index():
 def register():
 	form = Register(request.form)
 	if(request.method == 'POST' and form.validate()):
-		cursor.execute("INSERT INTO users (name, email, username, password) VALUES (%s, %s, %s, %s)", (form.name.data, form.email.data, form.username.data, sha256_crypt.encrypt(str(form.password.data))) )		
+		#cursor.execute("INSERT INTO users (name, email, username, password) VALUES (%s, %s, %s, %s)", (form.name.data, form.email.data, form.username.data, sha256_crypt.encrypt(str(form.password.data))) )		
 		return redirect(url_for('index'))
 	else:
 		return render_template('register.html', form = form)
@@ -48,7 +47,7 @@ def register():
 def login():
 	form = Login(request.form)
 	if(request.method == 'POST' and form.validate()):
-		result = cursor.execute("SELECT * FROM users WHERE username = %s", form.username.data)
+		#result = cursor.execute("SELECT * FROM users WHERE username = %s", form.username.data)
 		if result:
 			if result[3] == form.username.data and sha256_crypt.verify(form.password.data, result[4]):
 				session['logged_in'] = True
@@ -71,5 +70,4 @@ def pash():
 	return render_template('pdash.html')
 
 if __name__ == '__main__':
-	app.secret_key = 'supersecretkey'
 	app.run(debug = True)
