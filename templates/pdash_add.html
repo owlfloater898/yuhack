@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% block body %}
+<header id="header">
+	<div class="container">
+		<h1>Add Proposal</h1>
+	</div>
+</header>
+<div class="container">
+	{% from 'includes/_formHelpers.html' import render_field %}
+	<form method="Post" action="">
+		<div class="form-group">
+			{{render_field(form.title, class="form-control")}}
+		</div>
+		<div class="form-group">
+			{{render_field(form.amount, class="form-control")}}
+		</div>
+		<div class="form-group">
+			{{render_field(form.description, class="form-control")}}
+		</div>
+		<div class="form-group">
+			{{render_field(form.tags, class="form-control")}}
+		</div>
+		<div class="form-group">
+			{{render_field(form.location, class="form-control")}}
+		</div>
+		<p><input type="submit" class="btn btn-primary" value="Submit"></p>
+	</form>
+</div>
+{% endblock %}
