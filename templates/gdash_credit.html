@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<div>
+	<form>
+		<label>
+			Credit card number:
+		<input type="text" placeholder="XXXX-XXXX-XXXX-XXXX">
+		</label>
+
+		<label>
+			Cardholder Name:
+			<input type="text" placeholder="Cardholder Name">
+		</label>
+
+		<label>
+			Expiration Month:
+			<input type="number" min="1" max="12">
+		</label>
+
+		<label>
+			Expiration Year:
+			<input type="number" min="2017">'
+		</label>
+
+		<label>
+			Security Code:
+			<input type="text" placeholder="XXX">
+		</label>
+
+		<h3>Address</h3>
+		<label>
+			Address 1:
+			<input type="text" placeholder="Street Address">
+		</label>
+		<label>
+			City:
+			<input type="text" placeholder="City">
+		</label>
+		<label>
+			State:
+			<input type="text" placeholder="State">
+		</label>
+		
+
+</div>
+
+{% endblock %}

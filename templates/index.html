@@ -1,47 +1,18 @@
 {% extends 'layout.html' %}
 {% block body %}
-<header id="header">
-		<div class="container">
-			<h1>Welcome to Granted</h1>
-		</div>
-</header>
-<div class="container">
-	<h4>Grants</h4>
-		<table class="table table-striped">
-			<tr>
-				<th>Amount</th>
-				<th>Description</th>
-				<th>tags</th>
-				<th>location</th>		
-			</tr>
-			{% for grant in grants %}
-				<tr>
-					<td>{{grant.amount}}</td>
-					<td>{{grant.description}}</td>
-					<td>{{grant.tags}}</td>
-					<td>{{grant.location}}</td>
-				</tr>
-			{% endfor %}
-		</table>
-
-	<h4>Proposals</h4>
-		<table class="table table-striped">
-		<tr>
-			<th>Title</th>
-			<th>Amount</th>
-			<th>Description</th>
-			<th>Tags</th>
-			<th>Location</th>		
-		</tr>
-		{% for prop in props %}
-			<tr>
-				<td>{{prop.title}}</td>
-				<td>{{prop.amount}}</td>
-				<td>{{prop.description}}</td>
-				<td>{{prop.tags}}</td>
-				<td>{{prop.location}}</td>
-			</tr>
-		{% endfor %}
-	</table>
+<div class="bg-image bg-image-centered">
+	<div class="container search-bar centered">
+		<h1>Explore Grants and Proposals</h1>
+		<form method="Post" action="">
+			<div class="input-group">
+			   <input type="text" class="form-control">
+			   <span class="input-group-btn">
+			        <button class="btn btn-default" type="button">Search</button>
+			   </span>
+			</div>
+		</form>
+	</div>
+	
+	</div>
 </div>
 {% endblock %}

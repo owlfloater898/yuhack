@@ -1,5 +1,6 @@
 {% extends 'layout.html' %}
 {% block body %}
+<div class="bg-image">
 <header id="header">
 	<div class="container">
 		<h1>Login</h1>
@@ -7,8 +8,7 @@
 </header>
 <div class="container">
 	<form method="Post" action="">
-		<div class="container">
-			<div class="well">
+		<div class="container search-bar">
 				<div class="form-group">
 					<label>Username</label>
 					<p><input type="text", name="username" class="form-control" value={{request.form.username}}></p>
@@ -18,9 +18,9 @@
 					<p><input type="password", name="password" class="form-control" value={{request.form.password}}></p>
 				</div>
 				<button type="submit" class="btn btn-primary">Submit</button>
-			</div>
 		</div>
 	</form>
+</div>
 </div>
 </div>
 {% endblock %}

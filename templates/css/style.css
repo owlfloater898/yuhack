@@ -2,140 +2,138 @@ body{
 	background: #f4f4f4;
 }
 
+body, html {
+    height: 100%;
+}
+
+.bg-image { 
+    /* The image used */
+    background-image: url("http://9yardsfitness.com/wp-content/uploads/2014/02/helping-hand.jpg");
+
+    /* Full height */
+    height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover
+  }
+.bg-image-centered{
+  flex: 1;
+  display: flex;
+}
+
 /* Navbar */
 .navbar{
-	min-height: 33px !important;
-	margin-bottom: 0;
-	border-radius: 0;
-	border: 0;
+  margin-bottom: 0;
+  border-radius: 0;
+  border: 0;
 }
-
-.navbar-nav > li > a, .navbar-brand{
-	padding-top: 6px !important;
-	padding-bottom: 0 !important;
-	height: 33px;
-} 
-
 .navbar-default {
-  background-color: #4a6f9b;
-  border-color: #395f89;
+  background-color: #2196f3;
+  border-color: #2196f3;
 }
 .navbar-default .navbar-brand {
-  color: #d3dce7;
+  color: #f7f9fb;
 }
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
-  color: #dbf1ff;
+  color: #c2fcff;
 }
 .navbar-default .navbar-text {
-  color: #d3dce7;
+  color: #f7f9fb;
 }
 .navbar-default .navbar-nav > li > a {
-  color: #d3dce7;
+  color: #f7f9fb;
 }
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
-  color: #dbf1ff;
+  color: #c2fcff;
 }
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover,
 .navbar-default .navbar-nav > .active > a:focus {
-  color: #dbf1ff;
-  background-color: #395f89;
+  color: #c2fcff;
+  background-color: #2196f3;
 }
 .navbar-default .navbar-nav > .open > a,
 .navbar-default .navbar-nav > .open > a:hover,
 .navbar-default .navbar-nav > .open > a:focus {
-  color: #dbf1ff;
-  background-color: #395f89;
+  color: #c2fcff;
+  background-color: #2196f3;
 }
 .navbar-default .navbar-toggle {
-  border-color: #395f89;
+  border-color: #2196f3;
 }
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {
-  background-color: #395f89;
+  background-color: #2196f3;
 }
 .navbar-default .navbar-toggle .icon-bar {
-  background-color: #d3dce7;
+  background-color: #f7f9fb;
 }
 .navbar-default .navbar-collapse,
 .navbar-default .navbar-form {
-  border-color: #d3dce7;
+  border-color: #f7f9fb;
 }
 .navbar-default .navbar-link {
-  color: #d3dce7;
+  color: #f7f9fb;
 }
 .navbar-default .navbar-link:hover {
-  color: #dbf1ff;
+  color: #c2fcff;
 }
 
-/* Custom */
-.main-color-bg{
-	background-color: #4a6f9b !important;
- 	border-color: #395f89 !important;
- 	color: #dbf1ff !important;
+.centered{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+}
+
+/* Search Bar */
+.search-bar{
+  color: #ffffff;
+  text-shadow: 2px 2px 4px #000000;
+  font-weight: bold;
+}
+
+/* Buttons */
+.btn-default{
+  background-color: #2196f3;
+  color: #ffffff;
+  border-color: #2196f3;
+}
+.btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open>.dropdown-toggle.btn-default {
+  background-color: #2196f3;
+  color: #ffffff;
+  border-color: #2196f3;
 }
 
 /* Header */
 #header{
-	background: #333333;
-	color: #d3dce7;
-	padding-bottom: 15px;
-	margin-bottom: 15px;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px #000000;
 }
-
-#header .create{
-	padding-top: 25px;
+.bar{
+  background-color: #4b5b72;
+  margin-top: 0;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
 }
-
-/* Breadcrumb */
-
-.breadcrumb{
-	background: #cccccc;
-	color: #333333;
-}
-
-.breadcrumb a{
-	color: #333333;
-}
-
-/* Progress Bars */
-
-.progress-bar{
-	background: #333333;
-	color: #d3dce7;
-}
-
-/* Dash-Box in the Wells */
-.dash-box{
-	text-align: center;
-}
-
-/* Footer */
-#footer{
-	background: #333333;
-	color: #d3dce7;
-	text-align: center;
-	padding: 30px;
-	margin-top: 30px;
-}
-
 
 
 
 @media (max-width: 767px) {
   .navbar-default .navbar-nav .open .dropdown-menu > li > a {
-    color: #d3dce7;
+    color: #f7f9fb;
   }
   .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
   .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
-    color: #dbf1ff;
+    color: #c2fcff;
   }
   .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
   .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
   .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
-    color: #dbf1ff;
-    background-color: #395f89;
+    color: #c2fcff;
+    background-color: #2196f3;
   }
 }
