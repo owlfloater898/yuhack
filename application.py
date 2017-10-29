@@ -75,10 +75,11 @@ def index():
 
 @application.route('/register', methods=['POST'])
 def register():
-	name = json['name']
-	email = json['email']
-	username = json['username']
-	password = json['password']
+	content = request.json
+	name = content["name"]
+	email = content["email"]
+	username = content["username"]
+	password = content["password"]
 	newUser = User(name = name, email = email, username = 
 		username, password = sha256_crypt.encrypt(str(password)))
 	if not newUser:
