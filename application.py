@@ -2,14 +2,17 @@ from flask import Flask, render_template, redirect, url_for, session, request, l
 from wtforms import Form, StringField, PasswordField, validators
 from passlib.hash import sha256_crypt
 
+app = Flask(__name__)
+
 @app.route('/')
 def index():
 	return render_template('index.html')
 
-@app.route('register')
+@app.route('/register')
+def register():
 	return render_template('register')
 
-@app.route('login')
+@app.route('/login')
 def login():
 	return render_template('login')
 
