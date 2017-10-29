@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+{% block body %}
+<header id="header">
+	<div class="container">
+		<h1>Grant Dashboard</h1>
+	</div>
+</header>
+<div class="container">
+	<a class="btn btn-primary" href="/gdash_add">Add Grant</a>
+	<hr>
+	{% if grants|length > 0 %}
+		<table class="table table-striped">
+			<tr>
+				<th>Amount</th>
+				<th>Description</th>
+				<th>tags</th>
+				<th>location</th>		
+			</tr>
+			{% for grant in grants %}
+				<tr>
+					<td>{{grant.amount}}</td>
+					<td>{{grant.description}}</td>
+					<td>{{grant.tags}}</td>
+					<td>{{grant.location}}</td>
+				</tr>
+			{% endfor %}
+		</table>
+	{% endif %}
+</div>
+{% endblock %}
