@@ -7,15 +7,16 @@ app = Flask(__name__)
 app.secret_key = 'supersecretkey'
 
 ## SQL Configuration
-#app.config['MYSQL_USER'] = 'avi'
-#app.config['MYSQL_PASSWORD'] = 'password'
-#app.config['MYSQL_DB'] = 'YUhackathon'
-#app.config['MYSQL_HOST'] = '162.243.186.103'
-#app.config['MYSQL_PORT'] = '33067'
-#mysql = MySQL(app)
+app.config['MYSQL_USER'] = 'avi'
+app.config['MYSQL_PASSWORD'] = 'password'
+app.config['MYSQL_DB'] = 'YUhackathon'
+app.config['MYSQL_HOST'] = '162.243.186.103'
+app.config['MYSQL_PORT'] = '33067'
+mysql = MySQL()
+mysql.init_app(app)
 
-#db = mysql.connection
-#cursor = db.cursor()
+db = mysql.connection
+cursor = db.cursor()
 
 
 class Register(Form):
